@@ -85,12 +85,21 @@
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0.75rem;
   width: 100%;
   padding: 1rem;
   border-radius: 16px;
   border: 2px solid var(--team);
   background: rgba(255, 255, 255, 0.55);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.score-controls--touch.score-controls--left,
+.score-controls--touch.score-controls--right {
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .score-controls--touch .score-controls__team,
@@ -101,10 +110,20 @@
 }
 
 .score-controls--touch .score-controls__row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 0.75rem;
+  width: 100%;
+}
+
+.score-controls--touch .score-controls__hint {
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--navy);
+  opacity: 0.75;
+  min-width: 0;
 }
 
 .score-controls--touch .score-controls__team {
@@ -114,14 +133,6 @@
   font-weight: 700;
   color: var(--team-dark);
   text-align: center;
-}
-
-.score-controls--touch .score-controls__hint {
-  font-family: system-ui, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--navy);
-  opacity: 0.75;
 }
 
 .score-controls--touch .score-controls__amounts {
@@ -141,12 +152,20 @@
   border-width: 2px;
 }
 
+.score-controls--touch .ctrl-btn--amount,
+.score-controls--touch .ctrl-btn--clear {
+  width: 100%;
+}
+
 .score-controls--touch .ctrl-btn--toggle {
   font-size: 2rem;
   min-height: 3.75rem;
-  min-width: 5rem;
+  width: 5rem;
+  max-width: 100%;
+  padding: 0.85rem;
   flex-shrink: 0;
   border-radius: 12px;
+  justify-self: end;
 }
 
 .score-controls--touch .ctrl-btn--clear {
@@ -179,6 +198,6 @@
   .score-controls--touch .ctrl-btn--toggle {
     font-size: 2.25rem;
     min-height: 4.25rem;
-    min-width: 5.5rem;
+    width: 5.5rem;
   }
 }
