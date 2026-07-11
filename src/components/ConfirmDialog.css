@@ -1,0 +1,77 @@
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 62, 80, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.dialog {
+  background: var(--bg);
+  border: 2px solid var(--tan);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 12px 40px var(--shadow);
+}
+
+.dialog h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.dialog p {
+  margin: 0 0 1.25rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--navy);
+  opacity: 0.85;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.dialog-btn {
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.dialog-btn:active {
+  transform: scale(0.97);
+}
+
+.dialog-btn--cancel {
+  background: transparent;
+  border-color: var(--tan);
+  color: var(--navy);
+}
+
+.dialog-btn--cancel:hover {
+  background: rgba(196, 168, 130, 0.15);
+}
+
+.dialog-btn--confirm {
+  background: var(--team-red);
+  border-color: var(--team-red);
+  color: white;
+}
+
+.dialog-btn--confirm:hover {
+  background: var(--team-red-dark);
+}
