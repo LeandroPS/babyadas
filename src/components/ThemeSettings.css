@@ -57,6 +57,23 @@
   cursor: pointer;
 }
 
+.theme-settings__field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.theme-settings__field--checkbox input[type='checkbox'] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--team-left, var(--team-green));
+  cursor: pointer;
+}
+
+.theme-settings__field--checkbox span {
+  flex: 1;
+}
+
 .theme-settings__save {
   min-height: 3rem;
   border: none;

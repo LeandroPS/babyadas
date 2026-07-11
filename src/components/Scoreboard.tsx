@@ -13,14 +13,18 @@ export function Scoreboard({ leftScore, rightScore, theme, className = '' }: Sco
     <header className={`scoreboard ${className}`.trim()}>
       <div className="scoreboard-side scoreboard-side--left">
         <span className="score score--left">{formatScore(leftScore)}</span>
-        <span className="scoreboard-team-name scoreboard-team-name--left">{theme.leftTeamName}</span>
+        {theme.showTeamNames && (
+          <span className="scoreboard-team-name scoreboard-team-name--left">{theme.leftTeamName}</span>
+        )}
       </div>
       <span className="scoreboard-divider" aria-hidden="true">
         :
       </span>
       <div className="scoreboard-side scoreboard-side--right">
         <span className="score score--right">{formatScore(rightScore)}</span>
-        <span className="scoreboard-team-name scoreboard-team-name--right">{theme.rightTeamName}</span>
+        {theme.showTeamNames && (
+          <span className="scoreboard-team-name scoreboard-team-name--right">{theme.rightTeamName}</span>
+        )}
       </div>
     </header>
   )

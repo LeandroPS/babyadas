@@ -43,12 +43,9 @@ export function ControlPage() {
           {!ready && <p className="status-line">Conectando…</p>}
           {error && <p className="status-line status-line--error">{error}</p>}
         </div>
-        <div className="control-header-actions">
-          <ScoreHistoryButton boardId={id} className="display-fab--inline" />
-          <Link to={displayPath(id)} className="control-link">
-            Ver placar
-          </Link>
-        </div>
+        <Link to={displayPath(id)} className="control-link">
+          Ver placar
+        </Link>
       </header>
 
       <Scoreboard
@@ -84,6 +81,8 @@ export function ControlPage() {
           onClear={clearRight}
         />
       </div>
+
+      <ScoreHistoryButton boardId={id} variant="bar" />
     </div>
   )
 }

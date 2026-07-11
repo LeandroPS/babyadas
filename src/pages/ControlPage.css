@@ -47,12 +47,6 @@
   opacity: 1;
 }
 
-.control-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .control-link {
   font-family: system-ui, sans-serif;
   font-size: 0.9rem;

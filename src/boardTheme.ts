@@ -6,6 +6,7 @@ export type BoardTheme = {
   backgroundColor: string
   leftTeamName: string
   rightTeamName: string
+  showTeamNames: boolean
 }
 
 export const DEFAULT_BOARD_THEME: BoardTheme = {
@@ -14,6 +15,7 @@ export const DEFAULT_BOARD_THEME: BoardTheme = {
   backgroundColor: '#f5ebe1',
   leftTeamName: 'Time verde',
   rightTeamName: 'Time vermelho',
+  showTeamNames: false,
 }
 
 const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/
@@ -38,6 +40,7 @@ export function parseBoardTheme(raw: unknown): BoardTheme {
     backgroundColor: sanitizeHexColor(data.backgroundColor, DEFAULT_BOARD_THEME.backgroundColor),
     leftTeamName: sanitizeTeamName(data.leftTeamName, DEFAULT_BOARD_THEME.leftTeamName),
     rightTeamName: sanitizeTeamName(data.rightTeamName, DEFAULT_BOARD_THEME.rightTeamName),
+    showTeamNames: data.showTeamNames === true,
   }
 }
 

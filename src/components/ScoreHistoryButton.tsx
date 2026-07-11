@@ -1,34 +1,35 @@
 import { useState } from 'react'
 import { formatScore } from '../formatScore'
-import {
-  formatHistoryActionForTheme,
-  useScoreHistory,
-} from '../useScoreHistory'
+import { formatHistoryActionForTheme, useScoreHistory } from '../useScoreHistory'
 import { formatHistoryTime } from '../scoreHistory'
 import { useBoardTheme } from '../useBoardTheme'
 import { HistoryIcon } from './Icons'
 import './ControlQrButton.css'
+import './ScoreHistoryButton.css'
 
 type ScoreHistoryButtonProps = {
   boardId: string
-  className?: string
+  variant?: 'fab' | 'bar'
 }
 
-export function ScoreHistoryButton({ boardId, className = '' }: ScoreHistoryButtonProps) {
+export function ScoreHistoryButton({ boardId, variant = 'fab' }: ScoreHistoryButtonProps) {
   const [open, setOpen] = useState(false)
   const { entries, ready, error, restoreEntry } = useScoreHistory(boardId, open)
   const { theme } = useBoardTheme(boardId)
+
+  const buttonClass =
+    variant === 'bar' ? 'history-bar-btn' : 'display-fab display-fab--history'
 
   return (
     <>
       <button
         type="button"
-        className={`display-fab display-fab--history ${className}`.trim()}
+        className={buttonClass}
         onClick={() => setOpen(true)}
         aria-label="Ver histórico do placar"
-        title="Histórico"
       >
-        <HistoryIcon className="display-fab__icon" />
+        <HistoryIcon className={variant === 'bar' ? 'history-bar-btn__icon' : 'display-fab__icon'} />
+        {variant === 'bar' && <span>Histórico</span>}
       </button>
 
       {open && (

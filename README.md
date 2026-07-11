@@ -71,7 +71,8 @@ npm run dev
         "rightScoreColor": "#c0392b",
         "backgroundColor": "#f5ebe1",
         "leftTeamName": "Time verde",
-        "rightTeamName": "Time vermelho"
+        "rightTeamName": "Time vermelho",
+        "showTeamNames": false
       }
     }
   }
