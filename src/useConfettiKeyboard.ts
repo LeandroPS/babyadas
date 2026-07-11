@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { stopContinuousConfetti, toggleContinuousConfetti } from './celebrateConfetti'
 
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false
@@ -7,20 +6,17 @@ function isTypingTarget(target: EventTarget | null): boolean {
   return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable
 }
 
-export function useWinnerConfetti() {
+export function useConfettiKeyboard(toggleConfetti: () => void) {
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key.toLowerCase() !== 'w') return
       if (isTypingTarget(event.target)) return
 
       event.preventDefault()
-      toggleContinuousConfetti()
+      toggleConfetti()
     }
 
     window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      stopContinuousConfetti()
-    }
-  }, [])
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [toggleConfetti])
 }

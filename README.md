@@ -1,32 +1,77 @@
-# React + TypeScript + Vite
+# Babyadas — Placar
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Placar remoto para a competição Babyadas (chá de bebê).
 
-Currently, two official plugins are available:
+## URLs
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Rota | Uso |
+|------|-----|
+| `/` | **Display** — TV/projetor (placar + logo + confetes com `W`) |
+| `/control` | **Controle remoto** — celular para atualizar o placar |
 
-## React Compiler
+## Desenvolvimento local
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cp .env.example .env   # preencha com as credenciais Firebase
+npm install
+npm run dev
+```
 
-## Expanding the Oxlint configuration
+## Firebase — Realtime Database
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+1. No [Firebase Console](https://console.firebase.google.com) → projeto **babyadas**
+2. **Build → Realtime Database → Create Database**
+3. Copie a **Database URL** (ex.: `https://babyadas-default-rtdb.firebaseio.com`) para `VITE_FIREBASE_DATABASE_URL` no `.env`
+4. Em **Rules**, publique as regras de `database.rules.json`:
 
 ```json
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
   "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+    "score": {
+      ".read": true,
+      ".write": true
+    },
+    "celebrate": {
+      ".read": true,
+      ".write": true
+    }
   }
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+> Para um evento privado, compartilhe só o link `/control`. As regras acima permitem leitura/escrita pública — suficiente para um chá de bebê; adicione auth ou PIN depois se quiser restringir.
+
+### Estrutura dos dados
+
+```json
+{
+  "score": {
+    "left": 0,
+    "right": 0,
+    "updatedAt": 1718123456789
+  },
+  "celebrate": {
+    "active": false
+  }
+}
+```
+
+## Deploy na Netlify
+
+1. Conecte o repositório Git
+2. **Site settings → Environment variables** — adicione todas as variáveis `VITE_*` do `.env.example`
+3. Deploy (build: `npm run build`, publish: `dist`)
+
+O `netlify.toml` já inclui redirect SPA para `/control` funcionar.
+
+## Variáveis de ambiente
+
+| Variável | Descrição |
+|----------|-----------|
+| `VITE_FIREBASE_API_KEY` | Web API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `babyadas.firebaseapp.com` |
+| `VITE_FIREBASE_PROJECT_ID` | `babyadas` |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Sender ID |
+| `VITE_FIREBASE_APP_ID` | App ID |
+| `VITE_FIREBASE_DATABASE_URL` | URL do Realtime Database |

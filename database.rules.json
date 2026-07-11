@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "score": {
+      ".read": true,
+      ".write": true
+    },
+    "celebrate": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

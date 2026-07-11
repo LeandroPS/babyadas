@@ -1,0 +1,18 @@
+.status-banner {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  background: rgba(196, 168, 130, 0.25);
+  color: var(--navy);
+}
+
+.status-banner--error {
+  background: rgba(192, 57, 43, 0.15);
+  color: var(--team-red);
+}
+
+.app--display .hero {
+  padding-bottom: 2rem;
+}
