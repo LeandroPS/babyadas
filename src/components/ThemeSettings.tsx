@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { BoardTheme } from '../boardTheme'
+import './ControlQrButton.css'
 import './ThemeSettings.css'
 
 type ThemeSettingsProps = {
@@ -27,11 +28,15 @@ export function ThemeSettings({ theme, onChange }: ThemeSettingsProps) {
   const [draft, setDraft] = useState(theme)
 
   useEffect(() => {
-    setDraft(theme)
-  }, [theme])
+    if (open) setDraft(theme)
+  }, [open, theme])
 
   function handleFieldChange(key: ThemeField, value: string | boolean) {
     setDraft((current) => ({ ...current, [key]: value }))
+  }
+
+  function handleClose() {
+    setOpen(false)
   }
 
   function handleSave() {
@@ -40,59 +45,76 @@ export function ThemeSettings({ theme, onChange }: ThemeSettingsProps) {
   }
 
   return (
-    <section className="theme-settings">
+    <>
       <button
         type="button"
-        className="theme-settings__toggle"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
+        className="theme-settings__trigger"
+        onClick={() => setOpen(true)}
       >
         Aparência do placar
       </button>
 
       {open && (
-        <div className="theme-settings__panel">
-          {FIELDS.map(({ key, label, type }) => (
-            <label
-              key={key}
-              className={`theme-settings__field ${type === 'checkbox' ? 'theme-settings__field--checkbox' : ''}`}
-            >
-              {type === 'checkbox' ? (
-                <>
-                  <input
-                    type="checkbox"
-                    checked={draft.showTeamNames}
-                    onChange={(event) => handleFieldChange('showTeamNames', event.target.checked)}
-                  />
-                  <span>{label}</span>
-                </>
-              ) : (
-                <>
-                  <span>{label}</span>
-                  {type === 'color' ? (
-                    <input
-                      type="color"
-                      value={draft[key] as string}
-                      onChange={(event) => handleFieldChange(key, event.target.value)}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      value={draft[key] as string}
-                      maxLength={32}
-                      onChange={(event) => handleFieldChange(key, event.target.value)}
-                    />
-                  )}
-                </>
-              )}
-            </label>
-          ))}
+        <div className="display-overlay" onClick={handleClose} role="presentation">
+          <div
+            className="display-panel display-panel--theme"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="theme-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2 id="theme-title" className="display-panel__title">
+              Aparência do placar
+            </h2>
+            <p className="display-panel__hint">Personalize cores e nomes dos times</p>
 
-          <button type="button" className="theme-settings__save" onClick={handleSave}>
-            Salvar aparência
-          </button>
+            <div className="theme-settings__fields">
+              {FIELDS.map(({ key, label, type }) => (
+                <label
+                  key={key}
+                  className={`theme-settings__field ${type === 'checkbox' ? 'theme-settings__field--checkbox' : ''}`}
+                >
+                  {type === 'checkbox' ? (
+                    <>
+                      <input
+                        type="checkbox"
+                        checked={draft.showTeamNames}
+                        onChange={(event) => handleFieldChange('showTeamNames', event.target.checked)}
+                      />
+                      <span>{label}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{label}</span>
+                      {type === 'color' ? (
+                        <input
+                          type="color"
+                          value={draft[key] as string}
+                          onChange={(event) => handleFieldChange(key, event.target.value)}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={draft[key] as string}
+                          maxLength={32}
+                          onChange={(event) => handleFieldChange(key, event.target.value)}
+                        />
+                      )}
+                    </>
+                  )}
+                </label>
+              ))}
+            </div>
+
+            <button type="button" className="display-panel__close" onClick={handleSave}>
+              Salvar aparência
+            </button>
+            <button type="button" className="theme-settings__cancel" onClick={handleClose}>
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
-    </section>
+    </>
   )
 }
