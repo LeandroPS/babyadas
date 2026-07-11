@@ -33,7 +33,8 @@ npm run dev
     "boards": {
       "$id": {
         "score": { ".read": true, ".write": true },
-        "celebrate": { "active": { ".read": true, ".write": true } }
+        "celebrate": { "active": { ".read": true, ".write": true } },
+        "history": { "$entryId": { ".read": true, ".write": true } }
       }
     }
   }
@@ -55,6 +56,14 @@ npm run dev
       },
       "celebrate": {
         "active": false
+      },
+      "history": {
+        "pushId1": {
+          "left": 3,
+          "right": 7,
+          "at": 1718123456789,
+          "action": "left +1"
+        }
       }
     }
   }

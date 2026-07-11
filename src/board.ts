@@ -14,6 +14,10 @@ export function boardCelebratePath(id: string) {
   return `boards/${id}/celebrate/active`
 }
 
+export function boardHistoryPath(id: string) {
+  return `boards/${id}/history`
+}
+
 export function controlPath(id: string) {
   return `/${id}/control`
 }

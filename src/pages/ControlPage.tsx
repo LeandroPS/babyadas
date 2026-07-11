@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
+import { ScoreHistoryButton } from '../components/ScoreHistoryButton'
 import { ScoreControls } from '../components/ScoreControls'
 import { displayPath, isValidBoardId } from '../board'
 import { formatScore } from '../formatScore'
@@ -39,9 +40,12 @@ export function ControlPage() {
           {!ready && <p className="status-line">Conectando…</p>}
           {error && <p className="status-line status-line--error">{error}</p>}
         </div>
-        <Link to={displayPath(id)} className="control-link">
-          Ver placar
-        </Link>
+        <div className="control-header-actions">
+          <ScoreHistoryButton boardId={id} className="display-fab--inline" />
+          <Link to={displayPath(id)} className="control-link">
+            Ver placar
+          </Link>
+        </div>
       </header>
 
       <div className="control-scoreboard">

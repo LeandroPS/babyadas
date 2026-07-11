@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { onValue, ref, runTransaction } from 'firebase/database'
+import { onValue, ref } from 'firebase/database'
 import { boardScorePath, isValidBoardId } from './board'
 import { db } from './firebase'
+import { recordScoreMutation } from './useScoreHistory'
 
 export type Scores = {
   left: number
@@ -46,43 +47,47 @@ export function useRemoteScores(boardId: string | undefined) {
   }, [boardId])
 
   const mutate = useCallback(
-    (updateFn: (current: Scores) => Scores) => {
+    (updateFn: (current: Scores) => Scores, action: string) => {
       if (!isValidBoardId(boardId)) return
-
-      runTransaction(ref(db, boardScorePath(boardId)), (current) => {
-        const next = updateFn(parseScores(current))
-        return { ...next, updatedAt: Date.now() }
-      })
+      recordScoreMutation(boardId, updateFn, action)
     },
     [boardId],
   )
 
   const adjustLeft = useCallback(
     (delta: number) => {
-      mutate((current) => ({
-        ...current,
-        left: Math.max(0, current.left + delta),
-      }))
+      const label = delta >= 0 ? `+${delta}` : `${delta}`
+      mutate(
+        (current) => ({
+          ...current,
+          left: Math.max(0, current.left + delta),
+        }),
+        `left ${label}`,
+      )
     },
     [mutate],
   )
 
   const adjustRight = useCallback(
     (delta: number) => {
-      mutate((current) => ({
-        ...current,
-        right: Math.max(0, current.right + delta),
-      }))
+      const label = delta >= 0 ? `+${delta}` : `${delta}`
+      mutate(
+        (current) => ({
+          ...current,
+          right: Math.max(0, current.right + delta),
+        }),
+        `right ${label}`,
+      )
     },
     [mutate],
   )
 
   const clearLeft = useCallback(() => {
-    mutate((current) => ({ ...current, left: 0 }))
+    mutate((current) => ({ ...current, left: 0 }), 'clear-esquerdo')
   }, [mutate])
 
   const clearRight = useCallback(() => {
-    mutate((current) => ({ ...current, right: 0 }))
+    mutate((current) => ({ ...current, right: 0 }), 'clear-direito')
   }, [mutate])
 
   return {
