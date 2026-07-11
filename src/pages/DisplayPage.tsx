@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { ControlQrButton } from '../components/ControlQrButton'
-import { formatScore } from '../formatScore'
+import { Scoreboard } from '../components/Scoreboard'
 import { isValidBoardId } from '../board'
+import { useBoardTheme } from '../useBoardTheme'
 import { useConfettiKeyboard } from '../useConfettiKeyboard'
 import { useRemoteConfetti } from '../useRemoteConfetti'
 import { useRemoteScores } from '../useRemoteScores'
@@ -11,6 +12,7 @@ import './DisplayPage.css'
 export function DisplayPage() {
   const { id } = useParams()
   const { leftScore, rightScore, ready, error } = useRemoteScores(id)
+  const { theme, style } = useBoardTheme(id)
   const { toggleConfetti } = useRemoteConfetti(id)
 
   useConfettiKeyboard(toggleConfetti)
@@ -24,17 +26,11 @@ export function DisplayPage() {
   }
 
   return (
-    <div className="app app--display">
+    <div className="app app--display" style={style}>
       {!ready && <p className="status-banner">Conectando ao placar…</p>}
       {error && <p className="status-banner status-banner--error">{error}</p>}
 
-      <header className="scoreboard">
-        <span className="score score--left">{formatScore(leftScore)}</span>
-        <span className="scoreboard-divider" aria-hidden="true">
-          :
-        </span>
-        <span className="score score--right">{formatScore(rightScore)}</span>
-      </header>
+      <Scoreboard leftScore={leftScore} rightScore={rightScore} theme={theme} />
 
       <main className="hero">
         <img

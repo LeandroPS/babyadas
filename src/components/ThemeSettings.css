@@ -1,0 +1,74 @@
+.theme-settings {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.theme-settings__toggle {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--tan);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--navy);
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.theme-settings__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 2px solid var(--tan);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.theme-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--navy);
+}
+
+.theme-settings__field input[type='text'] {
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 2px solid rgba(196, 168, 130, 0.55);
+  border-radius: 10px;
+  font: inherit;
+  color: var(--navy);
+  background: white;
+}
+
+.theme-settings__field input[type='color'] {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border: 2px solid rgba(196, 168, 130, 0.55);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.theme-settings__save {
+  min-height: 3rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--team-left, var(--team-green));
+  color: white;
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.theme-settings__save:active {
+  transform: scale(0.98);
+}

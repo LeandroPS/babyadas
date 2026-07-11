@@ -34,7 +34,8 @@ npm run dev
       "$id": {
         "score": { ".read": true, ".write": true },
         "celebrate": { "active": { ".read": true, ".write": true } },
-        "history": { ".read": true, ".write": true }
+        "history": { ".read": true, ".write": true },
+        "theme": { ".read": true, ".write": true }
       }
     }
   }
@@ -64,6 +65,13 @@ npm run dev
           "at": 1718123456789,
           "action": "left +1"
         }
+      },
+      "theme": {
+        "leftScoreColor": "#2e7d4f",
+        "rightScoreColor": "#c0392b",
+        "backgroundColor": "#f5ebe1",
+        "leftTeamName": "Time verde",
+        "rightTeamName": "Time vermelho"
       }
     }
   }

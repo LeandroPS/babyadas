@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { onValue, ref, runTransaction, set } from 'firebase/database'
 import { boardHistoryPath, boardScorePath, isValidBoardId } from './board'
 import { db } from './firebase'
+import type { BoardTheme } from './boardTheme'
 import {
   formatHistoryAction,
-  formatHistoryTime,
   pushScoreHistory,
   type HistoryEntry,
   type Scores,
@@ -73,7 +73,11 @@ export function useScoreHistory(boardId: string | undefined, enabled = true) {
     [boardId],
   )
 
-  return { entries, ready, error, restoreEntry, formatHistoryTime, formatHistoryAction }
+  return { entries, ready, error, restoreEntry }
+}
+
+export function formatHistoryActionForTheme(action: string, theme: BoardTheme) {
+  return formatHistoryAction(action, theme.leftTeamName, theme.rightTeamName)
 }
 
 export function recordScoreMutation(

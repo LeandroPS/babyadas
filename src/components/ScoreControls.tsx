@@ -4,6 +4,7 @@ import './ScoreControls.css'
 
 type ScoreControlsProps = {
   side: 'left' | 'right'
+  teamName: string
   variant?: 'default' | 'touch'
   onAdjust: (delta: number) => void
   onClear: () => void
@@ -11,6 +12,7 @@ type ScoreControlsProps = {
 
 export function ScoreControls({
   side,
+  teamName,
   variant = 'default',
   onAdjust,
   onClear,
@@ -20,7 +22,6 @@ export function ScoreControls({
 
   const sign = adding ? 1 : -1
   const sideLabel = side === 'left' ? 'esquerdo' : 'direito'
-  const teamLabel = side === 'left' ? 'Time verde' : 'Time vermelho'
   const isTouch = variant === 'touch'
 
   function handleAdjust(amount: number) {
@@ -59,9 +60,9 @@ export function ScoreControls({
   return (
     <section
       className={`score-controls score-controls--${side} score-controls--${variant}`}
-      aria-label={teamLabel}
+      aria-label={teamName}
     >
-      {isTouch && <h2 className="score-controls__team">{teamLabel}</h2>}
+      {isTouch && <h2 className="score-controls__team">{teamName}</h2>}
 
       {isTouch ? (
         <div className="score-controls__row score-controls__row--mode">

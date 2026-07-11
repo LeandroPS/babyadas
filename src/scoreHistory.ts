@@ -32,10 +32,14 @@ export function formatHistoryTime(at: number) {
   }).format(new Date(at))
 }
 
-export function formatHistoryAction(action: string) {
+export function formatHistoryAction(
+  action: string,
+  leftTeamName = 'Time esquerdo',
+  rightTeamName = 'Time direito',
+) {
   if (action === 'restore') return 'Restaurado'
   if (action.startsWith('clear-')) return `Limpar ${action.replace('clear-', '')}`
-  if (action.startsWith('left ')) return `Verde ${action.replace('left ', '')}`
-  if (action.startsWith('right ')) return `Vermelho ${action.replace('right ', '')}`
+  if (action.startsWith('left ')) return `${leftTeamName} ${action.replace('left ', '')}`
+  if (action.startsWith('right ')) return `${rightTeamName} ${action.replace('right ', '')}`
   return action
 }

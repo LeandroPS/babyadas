@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { formatScore } from '../formatScore'
-import { useScoreHistory } from '../useScoreHistory'
+import {
+  formatHistoryActionForTheme,
+  useScoreHistory,
+} from '../useScoreHistory'
+import { formatHistoryTime } from '../scoreHistory'
+import { useBoardTheme } from '../useBoardTheme'
 import { HistoryIcon } from './Icons'
 import './ControlQrButton.css'
 
@@ -11,8 +16,8 @@ type ScoreHistoryButtonProps = {
 
 export function ScoreHistoryButton({ boardId, className = '' }: ScoreHistoryButtonProps) {
   const [open, setOpen] = useState(false)
-  const { entries, ready, error, restoreEntry, formatHistoryTime, formatHistoryAction } =
-    useScoreHistory(boardId, open)
+  const { entries, ready, error, restoreEntry } = useScoreHistory(boardId, open)
+  const { theme } = useBoardTheme(boardId)
 
   return (
     <>
@@ -61,7 +66,7 @@ export function ScoreHistoryButton({ boardId, className = '' }: ScoreHistoryButt
                       <span className="history-item__right">{formatScore(entry.right)}</span>
                     </span>
                     <span className="history-item__meta">
-                      <span>{formatHistoryAction(entry.action)}</span>
+                      <span>{formatHistoryActionForTheme(entry.action, theme)}</span>
                       <span>{formatHistoryTime(entry.at)}</span>
                     </span>
                   </button>

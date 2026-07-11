@@ -28,13 +28,46 @@
   text-align: center;
 }
 
+.scoreboard-team-name {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: system-ui, sans-serif;
+  font-size: clamp(0.85rem, 3vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.scoreboard-team-name--left {
+  color: var(--team-left, var(--team-green));
+}
+
+.scoreboard-team-name--right {
+  color: var(--team-right, var(--team-red));
+}
+
+.scoreboard-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3.2ch;
+}
+
+.scoreboard-side--left {
+  align-items: flex-end;
+}
+
+.scoreboard-side--right {
+  align-items: flex-start;
+}
+
 .score--left {
-  color: var(--team-green);
+  color: var(--team-left, var(--team-green));
   text-align: right;
 }
 
 .score--right {
-  color: var(--team-red);
+  color: var(--team-right, var(--team-red));
   text-align: left;
 }
 

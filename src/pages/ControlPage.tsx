@@ -1,8 +1,10 @@
 import { Link, useParams } from 'react-router-dom'
 import { ScoreHistoryButton } from '../components/ScoreHistoryButton'
+import { Scoreboard } from '../components/Scoreboard'
 import { ScoreControls } from '../components/ScoreControls'
+import { ThemeSettings } from '../components/ThemeSettings'
 import { displayPath, isValidBoardId } from '../board'
-import { formatScore } from '../formatScore'
+import { useBoardTheme } from '../useBoardTheme'
 import { useRemoteConfetti } from '../useRemoteConfetti'
 import { useRemoteScores } from '../useRemoteScores'
 import '../App.css'
@@ -21,6 +23,7 @@ export function ControlPage() {
     clearRight,
   } = useRemoteScores(id)
 
+  const { theme, style, updateTheme } = useBoardTheme(id)
   const { confettiActive, toggleConfetti } = useRemoteConfetti(id)
 
   if (!isValidBoardId(id)) {
@@ -32,7 +35,7 @@ export function ControlPage() {
   }
 
   return (
-    <div className="app app--control">
+    <div className="app app--control" style={style}>
       <header className="control-header">
         <div>
           <p className="control-label">Controle remoto</p>
@@ -48,13 +51,14 @@ export function ControlPage() {
         </div>
       </header>
 
-      <div className="control-scoreboard">
-        <span className="score score--left">{formatScore(leftScore)}</span>
-        <span className="scoreboard-divider" aria-hidden="true">
-          :
-        </span>
-        <span className="score score--right">{formatScore(rightScore)}</span>
-      </div>
+      <Scoreboard
+        leftScore={leftScore}
+        rightScore={rightScore}
+        theme={theme}
+        className="control-scoreboard"
+      />
+
+      <ThemeSettings theme={theme} onChange={updateTheme} />
 
       <button
         type="button"
@@ -65,8 +69,20 @@ export function ControlPage() {
       </button>
 
       <div className="control-panels">
-        <ScoreControls variant="touch" side="left" onAdjust={adjustLeft} onClear={clearLeft} />
-        <ScoreControls variant="touch" side="right" onAdjust={adjustRight} onClear={clearRight} />
+        <ScoreControls
+          variant="touch"
+          side="left"
+          teamName={theme.leftTeamName}
+          onAdjust={adjustLeft}
+          onClear={clearLeft}
+        />
+        <ScoreControls
+          variant="touch"
+          side="right"
+          teamName={theme.rightTeamName}
+          onAdjust={adjustRight}
+          onClear={clearRight}
+        />
       </div>
     </div>
   )

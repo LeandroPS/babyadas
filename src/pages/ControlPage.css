@@ -71,12 +71,12 @@
 }
 
 .control-scoreboard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
   width: 100%;
   margin: 0 0 1.25rem;
+}
+
+.control-scoreboard.scoreboard {
+  padding-bottom: 0;
 }
 
 .app--control .score {

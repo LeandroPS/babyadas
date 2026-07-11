@@ -7,16 +7,16 @@
 
 .score-controls--left {
   justify-content: flex-start;
-  --team: var(--team-green);
-  --team-light: var(--team-green-light);
-  --team-dark: var(--team-green-dark);
+  --team: var(--team-left, var(--team-green));
+  --team-light: color-mix(in srgb, var(--team) 22%, white);
+  --team-dark: color-mix(in srgb, var(--team) 70%, black);
 }
 
 .score-controls--right {
   justify-content: flex-end;
-  --team: var(--team-red);
-  --team-light: var(--team-red-light);
-  --team-dark: var(--team-red-dark);
+  --team: var(--team-right, var(--team-red));
+  --team-light: color-mix(in srgb, var(--team) 22%, white);
+  --team-dark: color-mix(in srgb, var(--team) 70%, black);
 }
 
 .score-controls__team,

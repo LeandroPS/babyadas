@@ -18,6 +18,10 @@ export function boardHistoryPath(id: string) {
   return `boards/${id}/history`
 }
 
+export function boardThemePath(id: string) {
+  return `boards/${id}/theme`
+}
+
 export function controlPath(id: string) {
   return `/${id}/control`
 }
