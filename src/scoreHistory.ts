@@ -1,7 +1,11 @@
 import { push, ref } from 'firebase/database'
 import { boardHistoryPath, isValidBoardId } from './board'
 import { db } from './firebase'
-import type { Scores } from './useRemoteScores'
+
+export type Scores = {
+  left: number
+  right: number
+}
 
 export type HistoryEntry = Scores & {
   id: string

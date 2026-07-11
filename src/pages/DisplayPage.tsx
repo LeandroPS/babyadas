@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import { ControlQrButton } from '../components/ControlQrButton'
-import { ScoreHistoryButton } from '../components/ScoreHistoryButton'
 import { formatScore } from '../formatScore'
 import { isValidBoardId } from '../board'
 import { useConfettiKeyboard } from '../useConfettiKeyboard'
@@ -45,7 +44,6 @@ export function DisplayPage() {
         />
       </main>
 
-      <ScoreHistoryButton boardId={id} />
       <ControlQrButton boardId={id} />
     </div>
   )

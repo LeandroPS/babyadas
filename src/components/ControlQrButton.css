@@ -144,6 +144,11 @@
   opacity: 0.7;
 }
 
+.history-empty--error {
+  color: var(--team-red);
+  opacity: 1;
+}
+
 .history-item {
   display: flex;
   flex-direction: column;

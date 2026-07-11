@@ -2,8 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { onValue, ref, runTransaction, set } from 'firebase/database'
 import { boardHistoryPath, boardScorePath, isValidBoardId } from './board'
 import { db } from './firebase'
-import { formatHistoryAction, formatHistoryTime, pushScoreHistory, type HistoryEntry } from './scoreHistory'
-import type { Scores } from './useRemoteScores'
+import {
+  formatHistoryAction,
+  formatHistoryTime,
+  pushScoreHistory,
+  type HistoryEntry,
+  type Scores,
+} from './scoreHistory'
 
 function parseHistory(raw: unknown): HistoryEntry[] {
   if (!raw || typeof raw !== 'object') return []
@@ -22,22 +27,35 @@ function parseHistory(raw: unknown): HistoryEntry[] {
     .sort((a, b) => b.at - a.at)
 }
 
-export function useScoreHistory(boardId: string | undefined) {
+export function useScoreHistory(boardId: string | undefined, enabled = true) {
   const [entries, setEntries] = useState<HistoryEntry[]>([])
   const [ready, setReady] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!isValidBoardId(boardId)) {
-      setEntries([])
-      setReady(true)
+    if (!enabled || !isValidBoardId(boardId)) {
+      setReady(false)
+      setError(null)
       return
     }
 
-    return onValue(ref(db, boardHistoryPath(boardId)), (snapshot) => {
-      setEntries(parseHistory(snapshot.val()))
-      setReady(true)
-    })
-  }, [boardId])
+    setReady(false)
+    setError(null)
+
+    return onValue(
+      ref(db, boardHistoryPath(boardId)),
+      (snapshot) => {
+        setEntries(parseHistory(snapshot.val()))
+        setReady(true)
+        setError(null)
+      },
+      (err) => {
+        setEntries([])
+        setReady(true)
+        setError(err.message)
+      },
+    )
+  }, [boardId, enabled])
 
   const restoreEntry = useCallback(
     async (entry: HistoryEntry) => {
@@ -55,7 +73,7 @@ export function useScoreHistory(boardId: string | undefined) {
     [boardId],
   )
 
-  return { entries, ready, restoreEntry, formatHistoryTime, formatHistoryAction }
+  return { entries, ready, error, restoreEntry, formatHistoryTime, formatHistoryAction }
 }
 
 export function recordScoreMutation(

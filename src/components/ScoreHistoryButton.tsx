@@ -11,8 +11,8 @@ type ScoreHistoryButtonProps = {
 
 export function ScoreHistoryButton({ boardId, className = '' }: ScoreHistoryButtonProps) {
   const [open, setOpen] = useState(false)
-  const { entries, ready, restoreEntry, formatHistoryTime, formatHistoryAction } =
-    useScoreHistory(boardId)
+  const { entries, ready, error, restoreEntry, formatHistoryTime, formatHistoryAction } =
+    useScoreHistory(boardId, open)
 
   return (
     <>
@@ -42,27 +42,30 @@ export function ScoreHistoryButton({ boardId, className = '' }: ScoreHistoryButt
 
             <div className="history-list">
               {!ready && <p className="history-empty">Carregando…</p>}
-              {ready && entries.length === 0 && (
+              {ready && error && <p className="history-empty history-empty--error">{error}</p>}
+              {ready && !error && entries.length === 0 && (
                 <p className="history-empty">Nenhuma alteração registrada ainda</p>
               )}
-              {entries.map((entry) => (
-                <button
-                  key={entry.id}
-                  type="button"
-                  className="history-item"
-                  onClick={() => restoreEntry(entry)}
-                >
-                  <span className="history-item__score">
-                    <span className="history-item__left">{formatScore(entry.left)}</span>
-                    <span className="history-item__sep">:</span>
-                    <span className="history-item__right">{formatScore(entry.right)}</span>
-                  </span>
-                  <span className="history-item__meta">
-                    <span>{formatHistoryAction(entry.action)}</span>
-                    <span>{formatHistoryTime(entry.at)}</span>
-                  </span>
-                </button>
-              ))}
+              {ready &&
+                !error &&
+                entries.map((entry) => (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    className="history-item"
+                    onClick={() => restoreEntry(entry)}
+                  >
+                    <span className="history-item__score">
+                      <span className="history-item__left">{formatScore(entry.left)}</span>
+                      <span className="history-item__sep">:</span>
+                      <span className="history-item__right">{formatScore(entry.right)}</span>
+                    </span>
+                    <span className="history-item__meta">
+                      <span>{formatHistoryAction(entry.action)}</span>
+                      <span>{formatHistoryTime(entry.at)}</span>
+                    </span>
+                  </button>
+                ))}
             </div>
 
             <button type="button" className="display-panel__close" onClick={() => setOpen(false)}>

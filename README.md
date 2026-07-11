@@ -34,7 +34,7 @@ npm run dev
       "$id": {
         "score": { ".read": true, ".write": true },
         "celebrate": { "active": { ".read": true, ".write": true } },
-        "history": { "$entryId": { ".read": true, ".write": true } }
+        "history": { ".read": true, ".write": true }
       }
     }
   }

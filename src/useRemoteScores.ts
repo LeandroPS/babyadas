@@ -3,11 +3,7 @@ import { onValue, ref } from 'firebase/database'
 import { boardScorePath, isValidBoardId } from './board'
 import { db } from './firebase'
 import { recordScoreMutation } from './useScoreHistory'
-
-export type Scores = {
-  left: number
-  right: number
-}
+import type { Scores } from './scoreHistory'
 
 function parseScores(raw: unknown): Scores {
   const data = (raw ?? {}) as Partial<Scores>
