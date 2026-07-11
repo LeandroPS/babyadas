@@ -1,12 +1,18 @@
 {
   "rules": {
-    "score": {
-      ".read": true,
-      ".write": true
-    },
-    "celebrate": {
-      ".read": true,
-      ".write": true
+    "boards": {
+      "$id": {
+        "score": {
+          ".read": true,
+          ".write": true
+        },
+        "celebrate": {
+          "active": {
+            ".read": true,
+            ".write": true
+          }
+        }
+      }
     }
   }
 }

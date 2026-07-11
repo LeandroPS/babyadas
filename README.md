@@ -1,13 +1,16 @@
 # Babyadas — Placar
 
-Placar remoto para a competição Babyadas (chá de bebê).
+Placar remoto para a competição Babyadas (chá de bebê). Suporta placares ilimitados — cada um com um ID único na URL.
 
 ## URLs
 
 | Rota | Uso |
 |------|-----|
-| `/` | **Display** — TV/projetor (placar + logo + confetes com `W`) |
-| `/control` | **Controle remoto** — celular para atualizar o placar |
+| `/` | Criar um novo placar (gera ID aleatório) |
+| `/:id` | **Display** — TV/projetor (placar + logo + confetes com `W` + QR code) |
+| `/:id/control` | **Controle remoto** — celular para atualizar o placar |
+
+Exemplo: `/a1b2c3d4` e `/a1b2c3d4/control`
 
 ## Desenvolvimento local
 
@@ -27,31 +30,33 @@ npm run dev
 ```json
 {
   "rules": {
-    "score": {
-      ".read": true,
-      ".write": true
-    },
-    "celebrate": {
-      ".read": true,
-      ".write": true
+    "boards": {
+      "$id": {
+        "score": { ".read": true, ".write": true },
+        "celebrate": { "active": { ".read": true, ".write": true } }
+      }
     }
   }
 }
 ```
 
-> Para um evento privado, compartilhe só o link `/control`. As regras acima permitem leitura/escrita pública — suficiente para um chá de bebê; adicione auth ou PIN depois se quiser restringir.
+> Compartilhe só o link `/:id/control` (ou o QR code no display). As regras acima permitem leitura/escrita pública por placar.
 
 ### Estrutura dos dados
 
 ```json
 {
-  "score": {
-    "left": 0,
-    "right": 0,
-    "updatedAt": 1718123456789
-  },
-  "celebrate": {
-    "active": false
+  "boards": {
+    "a1b2c3d4": {
+      "score": {
+        "left": 0,
+        "right": 0,
+        "updatedAt": 1718123456789
+      },
+      "celebrate": {
+        "active": false
+      }
+    }
   }
 }
 ```
@@ -62,7 +67,7 @@ npm run dev
 2. **Site settings → Environment variables** — adicione todas as variáveis `VITE_*` do `.env.example`
 3. Deploy (build: `npm run build`, publish: `dist`)
 
-O `netlify.toml` já inclui redirect SPA para `/control` funcionar.
+O `netlify.toml` já inclui redirect SPA para rotas dinâmicas funcionarem.
 
 ## Variáveis de ambiente
 

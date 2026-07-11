@@ -26,6 +26,14 @@
   opacity: 0.75;
 }
 
+.control-board-id {
+  margin: 0.2rem 0 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: var(--navy);
+  opacity: 0.55;
+}
+
 .status-line {
   margin: 0.35rem 0 0;
   font-family: system-ui, sans-serif;

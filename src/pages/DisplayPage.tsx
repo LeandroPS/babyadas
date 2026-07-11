@@ -1,4 +1,7 @@
+import { useParams } from 'react-router-dom'
+import { ControlQrButton } from '../components/ControlQrButton'
 import { formatScore } from '../formatScore'
+import { isValidBoardId } from '../board'
 import { useConfettiKeyboard } from '../useConfettiKeyboard'
 import { useRemoteConfetti } from '../useRemoteConfetti'
 import { useRemoteScores } from '../useRemoteScores'
@@ -6,10 +9,19 @@ import '../App.css'
 import './DisplayPage.css'
 
 export function DisplayPage() {
-  const { leftScore, rightScore, ready, error } = useRemoteScores()
-  const { toggleConfetti } = useRemoteConfetti()
+  const { id } = useParams()
+  const { leftScore, rightScore, ready, error } = useRemoteScores(id)
+  const { toggleConfetti } = useRemoteConfetti(id)
 
   useConfettiKeyboard(toggleConfetti)
+
+  if (!isValidBoardId(id)) {
+    return (
+      <div className="app app--display">
+        <p className="status-banner status-banner--error">Placar não encontrado</p>
+      </div>
+    )
+  }
 
   return (
     <div className="app app--display">
@@ -31,6 +43,8 @@ export function DisplayPage() {
           className="hero-logo"
         />
       </main>
+
+      <ControlQrButton boardId={id} />
     </div>
   )
 }

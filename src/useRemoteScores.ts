@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { onValue, ref, runTransaction } from 'firebase/database'
+import { boardScorePath, isValidBoardId } from './board'
 import { db } from './firebase'
 
 export type Scores = {
   left: number
   right: number
 }
-
-const SCORE_PATH = 'score'
 
 function parseScores(raw: unknown): Scores {
   const data = (raw ?? {}) as Partial<Scores>
@@ -17,18 +16,23 @@ function parseScores(raw: unknown): Scores {
   }
 }
 
-function scoreRef() {
-  return ref(db, SCORE_PATH)
-}
-
-export function useRemoteScores() {
+export function useRemoteScores(boardId: string | undefined) {
   const [scores, setScores] = useState<Scores>({ left: 0, right: 0 })
   const [ready, setReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!isValidBoardId(boardId)) {
+      setReady(true)
+      setError('Placar inválido')
+      return
+    }
+
+    setReady(false)
+    setError(null)
+
     return onValue(
-      scoreRef(),
+      ref(db, boardScorePath(boardId)),
       (snapshot) => {
         setScores(parseScores(snapshot.val()))
         setReady(true)
@@ -39,14 +43,19 @@ export function useRemoteScores() {
         setReady(true)
       },
     )
-  }, [])
+  }, [boardId])
 
-  const mutate = useCallback((updateFn: (current: Scores) => Scores) => {
-    runTransaction(scoreRef(), (current) => {
-      const next = updateFn(parseScores(current))
-      return { ...next, updatedAt: Date.now() }
-    })
-  }, [])
+  const mutate = useCallback(
+    (updateFn: (current: Scores) => Scores) => {
+      if (!isValidBoardId(boardId)) return
+
+      runTransaction(ref(db, boardScorePath(boardId)), (current) => {
+        const next = updateFn(parseScores(current))
+        return { ...next, updatedAt: Date.now() }
+      })
+    },
+    [boardId],
+  )
 
   const adjustLeft = useCallback(
     (delta: number) => {
